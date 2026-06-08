@@ -1,20 +1,26 @@
-# DevOps CI/CD Pipeline with Google Cloud
+# DevOps CI/CD Pipeline using Google Cloud
 
-## Overview
+## Project Overview
 
-This project demonstrates the implementation of a simple DevOps CI/CD workflow using Google Cloud services, Docker, GitHub, and Cloud Build. The lab focused on creating a Python web application, containerizing it with Docker, storing images in Artifact Registry, and automating builds using Cloud Build triggers.
+This project demonstrates the implementation of a complete Continuous Integration (CI) workflow using GitHub, Docker, Google Cloud Build, Artifact Registry, and Compute Engine.
+
+A simple Python Flask web application was developed, containerized using Docker, stored in Artifact Registry, and automatically rebuilt whenever code changes were pushed to GitHub.
 
 ---
 
-## Objectives
+## Architecture
 
-* Create a GitHub repository
-* Build a simple Python web application
-* Test the application in Google Cloud Shell
-* Create a Dockerfile for containerization
-* Build and manage Docker images using Cloud Build and Artifact Registry
-* Automate builds using Cloud Build triggers
-* Test automated build changes
+GitHub Repository
+↓
+Cloud Build Trigger
+↓
+Cloud Build
+↓
+Docker Image
+↓
+Artifact Registry
+↓
+Compute Engine VM
 
 ---
 
@@ -23,133 +29,146 @@ This project demonstrates the implementation of a simple DevOps CI/CD workflow u
 * Python
 * Flask
 * Docker
+* Git & GitHub
 * Google Cloud Shell
-* Google Cloud Build
+* Cloud Build
 * Artifact Registry
-* GitHub
-* Compute Engine VM
+* Compute Engine
+* Gunicorn
 
 ---
 
 ## Project Structure
 
-```bash
+```text
 devops-repo/
 │
 ├── main.py
 ├── requirements.txt
 ├── Dockerfile
-├── templates/
-│   └── layout.html
-└── README.md
+│
+└── templates/
+    ├── layout.html
+    └── index.html
 ```
 
 ---
 
-## Application Description
+## Features Implemented
 
-A simple Flask web application was created and tested locally in Cloud Shell. The application was then containerized using Docker and deployed using Google Cloud services.
+### Source Code Management
 
----
+* Created GitHub repository
+* Cloned repository into Cloud Shell
+* Managed code using Git
 
-## Steps Performed
+### Flask Application Development
 
-### 1. Created GitHub Repository
+* Created a simple web application
+* Rendered HTML templates
+* Displayed dynamic page content
 
-* Created a repository named `devops-repo`
-* Connected GitHub with Google Cloud Build
+### Containerization
 
-### 2. Built Python Flask Application
+* Created Dockerfile
+* Packaged application into Docker image
+* Configured Gunicorn as production web server
 
-* Developed a simple Flask web application
-* Added dependencies in `requirements.txt`
+### Cloud Build Integration
 
-### 3. Tested Application in Cloud Shell
+* Built Docker images using Cloud Build
+* Automated image creation from source code
 
-* Executed the Flask application locally
-* Verified browser output
+### Artifact Registry
 
-### 4. Created Dockerfile
+* Created Docker repository
+* Stored and managed container images
 
-* Defined Docker image configuration
-* Used Gunicorn for production server
-
-### 5. Built Docker Image
-
-Used Cloud Build to build the Docker image:
-
-```bash
-gcloud builds submit --tag us-east4-docker.pkg.dev/PROJECT_ID/devops-repo/devops-image:v0.1 .
-```
-
----
-
-### 6. Stored Image in Artifact Registry
-
-* Created Artifact Registry repository
-* Uploaded Docker image successfully
-
----
-
-### 7. Automated Builds with Triggers
+### Continuous Integration
 
 * Connected GitHub repository to Cloud Build
-* Created automatic build trigger on code push
-* Verified successful builds in Cloud Build history
+* Configured automatic build trigger
+* Automatically rebuilt images after code changes
+
+### Deployment Testing
+
+* Deployed Docker image on Compute Engine
+* Verified application functionality using VM external IP
 
 ---
 
-### 8. Tested Build Changes
+## Docker Build Process
 
-* Modified application files
-* Pushed changes to GitHub
-* Confirmed automatic rebuild execution
+1. Pull Python 3.13 base image
+2. Create application working directory
+3. Copy application source code
+4. Install Gunicorn
+5. Install Flask dependencies
+6. Configure application port
+7. Launch application using Gunicorn
 
 ---
 
-## Key Concepts Learned
+## Continuous Integration Workflow
 
-* Continuous Integration (CI)
-* Docker containerization
-* Artifact management
-* Automated build pipelines
-* GitHub integration with Google Cloud
-* Cloud Build triggers
-* DevOps workflow automation
+1. Developer updates source code
+2. Changes are committed and pushed to GitHub
+3. Cloud Build Trigger detects the change
+4. Cloud Build starts automatically
+5. Docker image is built
+6. Image is stored in Artifact Registry
+7. Updated image becomes available for deployment
 
 ---
 
 ## Commands Used
 
-### Run Flask App
+### Git Commands
 
 ```bash
-python3 main.py
+git add --all
+git commit -m "message"
+git push origin main
 ```
 
-### Build Docker Image
+### Create Docker Image
 
 ```bash
-gcloud builds submit --tag IMAGE_NAME
+gcloud builds submit --tag IMAGE_NAME .
 ```
 
-### Run Docker Container
+### View Project ID
 
 ```bash
-docker run -d -p 80:80 IMAGE_NAME
+echo $DEVSHELL_PROJECT_ID
 ```
 
-### View Running Containers
+### Configure Docker Authentication
 
 ```bash
-docker ps
+gcloud auth configure-docker us-east4-docker.pkg.dev
 ```
 
 ---
 
-## Outcome
+## Learning Outcomes
 
-Successfully implemented a basic CI/CD pipeline using Google Cloud services. The project demonstrated how automated cloud-based builds and container management simplify modern DevOps workflows.
+Through this project I learned:
+
+* Git and GitHub workflows
+* Docker containerization
+* Cloud Build automation
+* Artifact Registry image management
+* Continuous Integration concepts
+* Build triggers
+* Compute Engine deployment
+* DevOps pipeline fundamentals
+
+---
+
+## Final Result
+
+Successfully built and tested an automated CI/CD workflow where code changes pushed to GitHub automatically triggered Docker image builds and stored them in Artifact Registry for deployment on Google Cloud.
 
 ---
 
